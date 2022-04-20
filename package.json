@@ -1,0 +1,44 @@
+{
+  "name": "quoridor-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^17.0.0",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@wasmer/wasi": "^0.12.0",
+    "@wasmer/wasmfs": "^0.12.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.0",
+    "typescript": "^4.5.4",
+    "wasm-opt": "^1.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "BUILD_PATH='./docs' react-scripts build",
+    "prebuild": "npm run swiftbuild && npm run wasm-opt",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "swiftbuild": "swift build --product WasmLib -c release --triple wasm32-unknown-wasi",
+    "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

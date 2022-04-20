@@ -1,0 +1,27 @@
+body {
+  background-color: #282c34;
+}
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.Description {
+  text-align: start;
+  max-width: 540px;
+  margin: 0 1.5rem 1rem;
+}
+
+.Description h2 {
+  text-align: center;
+}
+
+.TwitterLink {
+  color: #00acee;
+}

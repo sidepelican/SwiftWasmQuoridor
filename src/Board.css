@@ -1,0 +1,70 @@
+.Board {
+    width: 480px;
+    height: 580px;
+    background: gray;
+}
+
+@media screen and (max-width: 480px) {
+    .Board {
+        scale: 0.65;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .Board {
+        scale: 0.55;
+    }
+}
+
+.TileView {
+    background: rgb(50, 45, 45);
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.TileView:hover.canMove {
+    background: #ddd;
+}
+
+.FenceView {
+    background: clear;
+    border-radius: 2px;
+}
+
+.FenceView.placed {
+    background: white;
+}
+
+.FenceView.horizontal {
+    width: 90px;
+    height: 10px;
+}
+
+.FenceView.vertical {
+    width: 10px;
+    height: 90px;
+}
+
+.FenceView:hover.canPlace {
+    background: rgb(255, 245, 221);
+}
+
+.MiniFenceView {
+    border-radius: 2px;   
+    background: white;
+    width: 8px;
+    height: 32px;
+}
+
+.PawnView {
+    width: 38px;
+    height: 38px;
+    margin: 6px;
+    background: rgb(206, 213, 250);
+    border-radius: 99px;
+}
+
+.PawnView.isPlayer {
+    background: rgb(255, 245, 221);
+}
