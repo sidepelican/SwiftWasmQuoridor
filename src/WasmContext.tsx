@@ -6,6 +6,22 @@ import { SwiftRuntime } from "./Gen/SwiftRuntime";
 import { bindWasmLib, WasmLibExports } from "./Gen/WasmLibExports";
 
 const wasmFs = new WasmFs();
+// @ts-ignore
+wasmFs.fs.writeSync = (fd, buffer, _, _, _): number => {
+  const text = new TextDecoder("utf-8").decode(buffer);
+  if (text !== "\n") {
+    switch (fd) {
+      case 1:
+        console.log(text);
+        break;
+      case 2:
+        console.error(text);
+        break;
+    }
+  }
+  return buffer.length;
+};
+
 let wasi = new WASI({
   args: [],
   env: {},
@@ -25,12 +41,6 @@ const startWasiTask = async () => {
   });
   swift.setInstance(instance);
   wasi.start(instance);
-
-  // const logStdout = (async () => {
-  //   const stdout = await wasmFs.getStdOut();
-  //   console.log(stdout);
-  // });
-  // setInterval(logStdout, 300);
 
   return bindWasmLib(swift);
 };
