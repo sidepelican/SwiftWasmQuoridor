@@ -25,7 +25,7 @@ const startWasiTask = async () => {
   });
   swift.setInstance(instance);
   wasi.start(instance);
-  
+
   // const logStdout = (async () => {
   //   const stdout = await wasmFs.getStdOut();
   //   console.log(stdout);
