@@ -13,44 +13,45 @@ struct GameID: Codable, Hashable {
     var raw: Int
 }
 
-enum FenceOrientation: String, Codable {
+public enum FenceOrientation: String, Codable {
     case horizontal
     case vertical
 }
 
-struct FencePoint: Codable {
-    var x: Int
-    var y: Int
-    var orientation: FenceOrientation
+public struct FencePoint: Codable {
+    public var x: Int
+    public var y: Int
+    public var orientation: FenceOrientation
 }
 
-struct PawnPoint: Codable {
-    var x: Int
-    var y: Int
+public struct PawnPoint: Codable {
+    public var x: Int
+    public var y: Int
 }
 
-enum PlayerSide: String, Codable {
+public enum PlayerSide: String, Codable {
     case ai
     case human
 }
 
-struct Pawn: Codable {
-    var side: PlayerSide
-    var point: PawnPoint
-    var fencesLeft: Int
+public struct Pawn: Codable {
+    public var side: PlayerSide
+    public var point: PawnPoint
+    public var fencesLeft: Int
 }
 
-struct FenceInfo: Codable {
-    var exists: Bool
-    var canPut: Bool
+public struct FenceInfo: Codable {
+    public var exists: Bool
+    public var canPut: Bool
 }
 
-struct Board: Codable {
-    var currentTurn: PlayerSide
-    var winner: PlayerSide?
-    var humanPawn: Pawn
-    var aiPawn: Pawn
-    var hFences: [FenceInfo]
-    var vFences: [FenceInfo]
-    var canMoves: [Bool]
+public struct Board: Codable {
+    public var currentTurn: PlayerSide
+    public var winner: PlayerSide?
+    public var humanPawn: Pawn
+    public var aiPawn: Pawn
+    public var hFences: [FenceInfo]
+    public var vFences: [FenceInfo]
+    public var canMoves: [Bool]
 }
+
