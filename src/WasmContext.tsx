@@ -7,7 +7,7 @@ import { bindWasmLib, WasmLibExports } from "./Gen/WasmLibExports";
 
 const wasmFs = new WasmFs();
 // @ts-ignore
-wasmFs.fs.writeSync = (fd, buffer, _, _, _): number => {
+wasmFs.fs.writeSync = (fd, buffer, _, __, ___): number => {
   const text = new TextDecoder("utf-8").decode(buffer);
   if (text !== "\n") {
     switch (fd) {
@@ -36,12 +36,15 @@ const startWasiTask = async () => {
 
   let module = await WebAssembly.compileStreaming(fetch("./WasmLib.wasm"));
   let instance = await WebAssembly.instantiate(module, {
-    ...wasi.getImports(module),
+    wasi_snapshot_preview1: wasi.wasiImport,
     ...swift.callableKitImports,
   });
   swift.setInstance(instance);
-  wasi.start(instance);
-
+  const { memory, _initialize, main } = instance.exports as any;
+  wasi.setMemory(memory);
+  _initialize();
+  main();
+  
   return bindWasmLib(swift);
 };
 

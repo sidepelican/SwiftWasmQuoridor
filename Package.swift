@@ -18,7 +18,13 @@ let package = Package(
             dependencies: [
                 "QuoridorEngine",
                 "WasmCallableKit",
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xclang-linker", "-mexec-model=reactor",
+                    "-Xlinker", "--export=main",
+                ])
             ]
-        )
+        ),
     ]
 )
