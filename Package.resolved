@@ -26,15 +26,6 @@
         "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
         "version" : "1.0.2"
       }
-    },
-    {
-      "identity" : "wasmcallablekit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sidepelican/WasmCallableKit.git",
-      "state" : {
-        "revision" : "d6a1e05b3320f5e36e3e3272af5b39ea62a137b5",
-        "version" : "0.1.0"
-      }
     }
   ],
   "version" : 2

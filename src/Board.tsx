@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './Board.css';
-import { Game } from './Gen/Game';
-import { FenceOrientation } from './Gen/WasmLibExports';
+import { Game } from './Gen/Game.gen';
+import { FenceOrientation } from './Gen/WasmExports.gen';
 
 const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
   [...Array(8)].flatMap((_, i) => {

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { WASI } from "@wasmer/wasi";
 import wasiBindings from "@wasmer/wasi/lib/bindings/browser";
 import { WasmFs } from "@wasmer/wasmfs";
-import { SwiftRuntime } from "./Gen/SwiftRuntime";
-import { bindWasmLib, WasmLibExports } from "./Gen/WasmLibExports";
+import { SwiftRuntime } from "./Gen/SwiftRuntime.gen";
+import { bindWasmLib, WasmLibExports } from "./Gen/global.gen";
 
 const wasmFs = new WasmFs();
 // @ts-ignore
@@ -34,8 +34,7 @@ let wasi = new WASI({
 const startWasiTask = async () => {
   const swift = new SwiftRuntime();
 
-  let module = await WebAssembly.compileStreaming(fetch("./WasmLib.wasm"));
-  let instance = await WebAssembly.instantiate(module, {
+  const { instance } = await WebAssembly.instantiateStreaming(fetch("./WasmLib.wasm"), {
     wasi_snapshot_preview1: wasi.wasiImport,
     ...swift.callableKitImports,
   });

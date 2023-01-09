@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Board } from "./Board";
-import { Game } from "./Gen/Game";
+import { Game } from "./Gen/Game.gen";
 import { useWasmExports } from "./WasmContext";
 
 export const GameArea: React.VFC<{}> = () => {
@@ -8,7 +8,6 @@ export const GameArea: React.VFC<{}> = () => {
 
   const [game, setGame] = useState<Game | null>(null);
   const onReset = useCallback(() => {
-    game?.release();
     setGame(null);
   }, [game, wasmReady]);
 
