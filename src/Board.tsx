@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './Board.css';
-import { WasmLibExports, FenceOrientation, GameID } from './Gen/WasmLibExports';
+import { Game } from './Gen/Game.gen';
+import { FenceOrientation } from './Gen/Types.gen';
 
 const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
   [...Array(8)].flatMap((_, i) => {
@@ -15,25 +16,24 @@ const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
   });
 
 export const Board: React.VFC<{
-  game: GameID,
-  wasm: WasmLibExports,
-}> = ({ game, wasm }) => {
+  game: Game,
+}> = ({ game }) => {
   const [, setCount] = useState(0);
   const step = useCallback(() => {
     setCount(v => v + 1);
   }, []);
 
-  const board = wasm.currentBoard(game);
+  const board = game.currentBoard();
 
   const aiTurn = board.currentTurn === "ai";
   useEffect(() => {
     if (aiTurn) {
       setTimeout(() => {
-        wasm.aiNext(game);
+        game.aiNext();
         step();
       }, 50);
     }
-  }, [aiTurn, game, step, wasm]);
+  }, [aiTurn, game, step]);
 
   const cpuPos = board.aiPawn.point;
   const playerPos = board.humanPawn.point;
@@ -53,7 +53,7 @@ export const Board: React.VFC<{
             const canMove = board.canMoves[x * 9 + y];
             let onClick = undefined;
             if (canMove) {
-              onClick = () => { wasm.movePawn(game, { x, y }); step(); };
+              onClick = () => { game.movePawn({ x, y }); step(); };
             }
             return <Tile key={x} canMove={canMove} onClick={onClick} />;
           })}
@@ -86,7 +86,7 @@ export const Board: React.VFC<{
         top += 60; left += 20;
         let onClick = undefined;
         if (canPlace) {
-          onClick = () => { wasm.putFence(game, { x, y, orientation: o}); step(); };
+          onClick = () => { game.putFence({ x, y, orientation: o}); step(); };
         }
         return <Fence key={`${x}_${y}_${o}`} orientation={o} canPlace={canPlace} placed={placed} top={top} left={left} onClick={onClick} />;
       })}

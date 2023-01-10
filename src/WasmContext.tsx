@@ -2,10 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import { WASI } from "@wasmer/wasi";
 import wasiBindings from "@wasmer/wasi/lib/bindings/browser";
 import { WasmFs } from "@wasmer/wasmfs";
-import { SwiftRuntime } from "./Gen/SwiftRuntime";
-import { bindWasmLib, WasmLibExports } from "./Gen/WasmLibExports";
+import { SwiftRuntime } from "./Gen/SwiftRuntime.gen";
+import { bindWasmLib, WasmLibExports } from "./Gen/global.gen";
 
 const wasmFs = new WasmFs();
+// @ts-ignore
+wasmFs.fs.writeSync = (fd, buffer, _, __, ___): number => {
+  const text = new TextDecoder("utf-8").decode(buffer);
+  if (text !== "\n") {
+    switch (fd) {
+      case 1:
+        console.log(text);
+        break;
+      case 2:
+        console.error(text);
+        break;
+    }
+  }
+  return buffer.length;
+};
+
 let wasi = new WASI({
   args: [],
   env: {},
@@ -18,20 +34,16 @@ let wasi = new WASI({
 const startWasiTask = async () => {
   const swift = new SwiftRuntime();
 
-  let module = await WebAssembly.compileStreaming(fetch("./WasmLib.wasm"));
-  let instance = await WebAssembly.instantiate(module, {
-    ...wasi.getImports(module),
+  const { instance } = await WebAssembly.instantiateStreaming(fetch("./WasmLib.wasm"), {
+    wasi_snapshot_preview1: wasi.wasiImport,
     ...swift.callableKitImports,
   });
   swift.setInstance(instance);
-  wasi.start(instance);
-
-  // const logStdout = (async () => {
-  //   const stdout = await wasmFs.getStdOut();
-  //   console.log(stdout);
-  // });
-  // setInterval(logStdout, 300);
-
+  const { memory, _initialize, main } = instance.exports as any;
+  wasi.setMemory(memory);
+  _initialize();
+  main();
+  
   return bindWasmLib(swift);
 };
 

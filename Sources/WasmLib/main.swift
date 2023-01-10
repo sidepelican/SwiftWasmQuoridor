@@ -1,3 +1,3 @@
 import WasmCallableKit
 
-WasmCallableKit.setFunctionList(WasmLib.functionList)
+WasmCallableKit.install()

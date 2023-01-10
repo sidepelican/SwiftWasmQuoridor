@@ -1,26 +1,25 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Board } from "./Board";
-import { GameID } from "./Gen/WasmLibExports";
+import { Game } from "./Gen/Game.gen";
 import { useWasmExports } from "./WasmContext";
 
 export const GameArea: React.VFC<{}> = () => {
-  const wasm = useWasmExports();
-  const [game, setGame] = useState<GameID | undefined>(undefined);
+  const wasmReady = useWasmExports() != null;
+
+  const [game, setGame] = useState<Game | null>(null);
   const onReset = useCallback(() => {
-    if (game != null && wasm != null) {
-      wasm.deleteGame(game);
-      setGame(undefined);
-    }
-  }, [game, wasm]);
+    setGame(null);
+  }, [game, wasmReady]);
 
   useEffect(() => {
-    if (game == null && wasm != null) {
-      setGame(wasm.newGame());
+    if (game == null && wasmReady) {
+      console.log("start new game");
+      setGame(new Game());
     }
-  }, [game, wasm]);
+  }, [game, wasmReady]);
 
   let content: ReactNode;
-  if (wasm == null) {
+  if (!wasmReady) {
     content = <div className="Board" style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <p>Loading <code>.wasm</code> binary ...</p>
     </div>
@@ -29,7 +28,7 @@ export const GameArea: React.VFC<{}> = () => {
       <p>Starting game ...</p>
     </div>
   } else {
-    content = <Board game={game} wasm={wasm} />
+    content = <Board game={game} />
   }
 
   return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
