@@ -15,7 +15,7 @@ const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
     });
   });
 
-export const Board: React.VFC<{
+export const Board: React.FC<{
   game: Game,
 }> = ({ game }) => {
   const [, setCount] = useState(0);
@@ -110,7 +110,7 @@ export const Board: React.VFC<{
   </div>;
 }
 
-const Tile: React.VFC<{
+const Tile: React.FC<{
   canMove: boolean,
   onClick?: () => void,
 }> = (props) => {
@@ -123,7 +123,7 @@ const Tile: React.VFC<{
   />;
 }
 
-const Pawn: React.VFC<{
+const Pawn: React.FC<{
   isPlayer: boolean,
   top: number, left: number
 }> = (props) => {
@@ -139,7 +139,7 @@ const Pawn: React.VFC<{
     }} />;
 }
 
-const Fence: React.VFC<{
+const Fence: React.FC<{
   orientation: FenceOrientation,
   canPlace: boolean,
   placed: boolean,
@@ -161,7 +161,7 @@ const Fence: React.VFC<{
   />;
 }
 
-const MiniFence: React.VFC<{
+const MiniFence: React.FC<{
   top: number, left: number
 }> = (props) => {
   return <div

@@ -3,7 +3,7 @@ import { Board } from "./Board";
 import { Game } from "./Gen/Game.gen";
 import { useWasmExports } from "./WasmContext";
 
-export const GameArea: React.VFC<{}> = () => {
+export const GameArea: React.FC<{}> = () => {
   const wasmReady = useWasmExports() != null;
 
   const [game, setGame] = useState<Game | null>(null);

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { PropsWithChildren, useContext, useEffect, useState } from "react";
 import { WASI } from "@wasmer/wasi";
 import wasiBindings from "@wasmer/wasi/lib/bindings/browser";
 import { WasmFs } from "@wasmer/wasmfs";
@@ -6,8 +6,9 @@ import { SwiftRuntime } from "./Gen/SwiftRuntime.gen";
 import { bindWasmLib, WasmLibExports } from "./Gen/global.gen";
 
 const wasmFs = new WasmFs();
+const rawWriteSync = wasmFs.fs.writeSync;
 // @ts-ignore
-wasmFs.fs.writeSync = (fd, buffer, _, __, ___): number => {
+wasmFs.fs.writeSync = (fd, buffer, offset, length, position): number => {
   const text = new TextDecoder("utf-8").decode(buffer);
   if (text !== "\n") {
     switch (fd) {
@@ -19,7 +20,7 @@ wasmFs.fs.writeSync = (fd, buffer, _, __, ___): number => {
         break;
     }
   }
-  return buffer.length;
+  return rawWriteSync(fd, buffer, offset, length, position);
 };
 
 let wasi = new WASI({
@@ -49,7 +50,7 @@ const startWasiTask = async () => {
 
 const WasmContext = React.createContext<WasmLibExports | null>(null);
 
-export const WasmProvider: React.FC<{}> = (props) => {
+export const WasmProvider: React.FC<PropsWithChildren<{}>> = (props) => {
   const [exports, setExports] = useState<WasmLibExports>();
   useEffect(() => {
     startWasiTask().then(setExports);

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { GameArea } from './GameArea';
-export const App: React.VFC<{}> = () => {
+export const App: React.FC<{}> = () => {
   return <div className="App">
     <h1>
       <code>Swift Quoridor!</code>
