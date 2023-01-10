@@ -1,5 +1,5 @@
 import { SwiftRuntime, globalRuntime } from "./SwiftRuntime.gen.js";
-import { Board, FencePoint, PawnPoint } from "./WasmExports.gen.js";
+import { Board, FencePoint, PawnPoint } from "./Types.gen.js";
 
 export class Game {
     #runtime: SwiftRuntime;
@@ -8,6 +8,7 @@ export class Game {
     constructor(runtime?: SwiftRuntime) {
         this.#runtime = runtime ?? globalRuntime;
         this.#id = this.#runtime.classInit(0, 0, {});
+        this.#runtime.autorelease(this, this.#id);
     }
 
     putFence(position: FencePoint): void {

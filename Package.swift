@@ -10,9 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/sidepelican/QuoridorEngine.git", from: "1.0.0"),
-//        .package(url: "https://github.com/sidepelican/WasmCallableKit.git", from: "0.1.0"),
-        .package(path: "../WasmCallableKit"),
-        // .package(path: "../WasmCallableKit/Codegen"),
+        .package(url: "https://github.com/sidepelican/WasmCallableKit.git", from: "0.3.0"),
     ],
     targets: [
         .executableTarget(
@@ -28,15 +26,15 @@ let package = Package(
                 ])
             ]
         ),
-        // .plugin(
-        //     name: "CodegenPlugin",
-        //     capability: .command(
-        //         intent: .custom(verb: "codegen", description: "Generate codes"),
-        //         permissions: [.writeToPackageDirectory(reason: "Place generated code")]
-        //     ),
-        //     dependencies: [
-        //         .product(name: "codegen", package: "Codegen"),
-        //     ]
-        // ),
+        .plugin(
+            name: "CodegenPlugin",
+            capability: .command(
+                intent: .custom(verb: "codegen", description: "Generate codes"),
+                permissions: [.writeToPackageDirectory(reason: "Place generated code")]
+            ),
+            dependencies: [
+                .product(name: "codegen", package: "WasmCallableKit"),
+            ]
+        ),
     ]
 )

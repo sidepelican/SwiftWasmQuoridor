@@ -15,6 +15,7 @@ type WasmCallableKitExported = {
   ck_send: (functionID: number, argumentBufferLength: number) => number;
   ck_class_init: (classID: number, initilizerID: number, argumentBufferLength: number) => number;
   ck_class_send: (instanceID: number, functionID: number, argumentBufferLength: number) => number;
+  ck_class_free: (instanceID: number) => void;
 };
 
 export var globalRuntime: SwiftRuntime;
@@ -28,6 +29,10 @@ export class SwiftRuntime {
 
   #textDecoder = new TextDecoder("utf-8");
   #textEncoder = new TextEncoder();
+
+  #pool = new FinalizationRegistry((instanceID: number) => {
+    this.#callableKitExports.ck_class_free(instanceID);
+  });
 
   constructor() {
     globalRuntime = this;
@@ -75,21 +80,24 @@ export class SwiftRuntime {
     return argBytes.length;
   }
 
-  #popReturn(): any {
+  #popReturn(): string | null {
     const returnValue = this.#nextReturn!!;
     this.#nextReturn = null;
     return returnValue;
   }
 
-  callSwiftFunction(functionID: number, argument: unknown): any {
+  send(functionID: number, argument: unknown): unknown {
     const argLen = this.#pushArg(argument);
     const out = this.#callableKitExports.ck_send(functionID, argLen);
-    const returnValue = this.#popReturn();
+    const returnValue = this.#popReturn()!!;
     switch (out) {
       case 0:
+        if (returnValue === "") return;
         return JSON.parse(returnValue);
       case -1:
         throw new Error(returnValue);
+      default:
+        throw new Error("unexpected");
     }
   }
 
@@ -98,7 +106,7 @@ export class SwiftRuntime {
     const out = this.#callableKitExports.ck_class_init(classID, initializerID, argLen);
     switch (out) {
       case -1:
-        throw new Error(this.#popReturn());
+        throw new Error(this.#popReturn()!!);
       default:
         return out;
     }
@@ -107,12 +115,19 @@ export class SwiftRuntime {
   classSend(instanceID: number, functionID: number, argument: unknown): unknown {
     const argLen = this.#pushArg(argument);
     const out = this.#callableKitExports.ck_class_send(instanceID, functionID, argLen);
-    const returnValue = this.#popReturn();
+    const returnValue = this.#popReturn()!!;
     switch (out) {
       case 0:
+        if (returnValue === "") return;
         return JSON.parse(returnValue);
       case -1:
         throw new Error(returnValue);
+      default:
+        throw new Error("unexpected");
     }
+  }
+
+  autorelease(obj: object, instanceID: number): void {
+    this.#pool.register(obj, instanceID);
   }
 }

@@ -8,7 +8,6 @@ func buildGameMetadata() -> ClassMetadata<Game> {
     decoder.dateDecodingStrategy = .millisecondsSince1970
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = .millisecondsSince1970
-    let empty = Data("{}".utf8)
     var meta = ClassMetadata<Game>()
     meta.inits.append { _ in
         return Game()
@@ -21,7 +20,7 @@ func buildGameMetadata() -> ClassMetadata<Game> {
         let _ = try self.putFence(
             position: args._0
         )
-        return empty
+        return Data()
     }
     meta.methods.append { `self`, argData in
         struct Params: Decodable {
@@ -31,11 +30,11 @@ func buildGameMetadata() -> ClassMetadata<Game> {
         let _ = try self.movePawn(
             position: args._0
         )
-        return empty
+        return Data()
     }
     meta.methods.append { `self`, _ in
         let _ = self.aiNext()
-        return empty
+        return Data()
     }
     meta.methods.append { `self`, _ in
         let ret = try self.currentBoard()

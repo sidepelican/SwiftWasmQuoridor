@@ -1,18 +1,3 @@
-import Foundation
-
-protocol WasmExports {
-    static func newGame() -> GameID
-    static func putFence(game: GameID, position: FencePoint) throws
-    static func movePawn(game: GameID, command: PawnPoint) throws
-    static func aiNext(game: GameID) throws
-    static func currentBoard(game: GameID) throws -> Board
-    static func deleteGame(game: GameID)
-}
-
-struct GameID: Codable, Hashable {
-    var raw: Int
-}
-
 public enum FenceOrientation: String, Codable {
     case horizontal
     case vertical

@@ -21,6 +21,7 @@
     "start": "vite",
     "build": "tsc --noEmit && vite build",
     "tsc": "tsc",
+    "codegen": "swift package --allow-writing-to-package-directory codegen",
     "prebuild": "npm run swiftbuild && npm run wasm-opt",
     "swiftbuild": "swift build --product WasmLib -c release --triple wasm32-unknown-wasi",
     "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm"

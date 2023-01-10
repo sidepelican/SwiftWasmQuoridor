@@ -3,13 +3,21 @@ import Foundation
 import QuoridorEngine
 
 public final class Game {
-    private let ctx: GameContext
+    private let agent: GameAgent
+    private let wasmPlayer = WasmController()
+    private let aiPlayer: MonteCarloPlayerWrapper
+
     public init() {
-        ctx = .init()
+        let agent = GameAgent()
+        self.agent = agent
+        let ai = MonteCarloPlayerWrapper(playerID: "M", agent: agent)
+        aiPlayer = ai
+        agent.setup(player1: ai, player2: wasmPlayer, firstPlayerIsOne: Bool.random())
+        agent.start()
     }
 
     public func putFence(position: FencePoint) throws {
-        if let error = ctx.wasmPlayer.putFence(
+        if let error = wasmPlayer.putFence(
             p: position.asEngine,
             o: position.orientation.asEngine
         ) {
@@ -18,25 +26,25 @@ public final class Game {
     }
 
     public func movePawn(position: PawnPoint) throws {
-        if let error = ctx.wasmPlayer.movePawn(p: position.asEngine) {
+        if let error = wasmPlayer.movePawn(p: position.asEngine) {
             throw error
         }
     }
 
     public func aiNext() {
-        _ = ctx.aiPlayer.next()
+        _ = aiPlayer.next()
     }
 
     public func currentBoard() throws -> Board {
-        let gameState = ctx.agent.currentState
+        let gameState = agent.currentState
 
-        let humanPawn = gameState.board.pawn(ofID: ctx.wasmPlayer.playerID)
-        let aiPawn = gameState.board.pawn(ofID: ctx.aiPlayer.playerID)
+        let humanPawn = gameState.board.pawn(ofID: wasmPlayer.playerID)
+        let aiPawn = gameState.board.pawn(ofID: aiPlayer.playerID)
 
         var winner: PlayerSide? {
-            if gameState.isWin(for: ctx.wasmPlayer.playerID) {
+            if gameState.isWin(for: wasmPlayer.playerID) {
                 return .human
-            } else if gameState.isWin(for: ctx.aiPlayer.playerID) {
+            } else if gameState.isWin(for: aiPlayer.playerID) {
                 return .ai
             } else {
                 return nil
@@ -44,7 +52,7 @@ public final class Game {
         }
 
         return Board(
-            currentTurn: gameState.currentPlayer == ctx.wasmPlayer.playerID ? .human : .ai,
+            currentTurn: gameState.currentPlayer == wasmPlayer.playerID ? .human : .ai,
             winner: winner,
             humanPawn: .init(side: .human,
                              point: .init(x: Int(humanPawn.point.x), y: Int(humanPawn.point.y)),
@@ -64,10 +72,33 @@ public final class Game {
             },
             canMoves: product(Int32(0)..<9, Int32(0)..<9).map { x, y in
                 gameState.board.canMovePawn(
-                    ofID: ctx.wasmPlayer.playerID,
+                    ofID: wasmPlayer.playerID,
                     to: .init(x: x, y: y)
                 )
             }
         )
+    }
+}
+
+extension FencePoint {
+    var asEngine: QuoridorEngine.FencePoint {
+        return .init(x: Int32(x), y: Int32(y))
+    }
+}
+
+extension FenceOrientation {
+    var asEngine: QuoridorEngine.Fence.Orientation {
+        switch self {
+        case .horizontal:
+            return .horizontal
+        case .vertical:
+            return .vertical
+        }
+    }
+}
+
+extension PawnPoint {
+    var asEngine: QuoridorEngine.PawnPoint {
+        return .init(x: Int32(x), y: Int32(y))
     }
 }
