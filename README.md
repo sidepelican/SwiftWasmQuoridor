@@ -9,5 +9,11 @@ https://book.swiftwasm.org/getting-started/setup.html 参考にしてwasm対応�
 # コード生成
 
 ```sh
-./codegen.sh
+npm run codegen
+```
+
+# Swiftビルド & パッケージング
+
+```sh
+npm run build
 ```

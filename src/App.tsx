@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { GameArea } from './GameArea';
+
 export const App: React.FC<{}> = () => {
   return <div className="App">
     <h1>
@@ -19,21 +20,43 @@ export const App: React.FC<{}> = () => {
       </ul>
       <h2>これは何？</h2>
       <p>
-        Swiftで作ったコリドールのゲームエンジンをWasmビルドしてブラウザで動くようにしたものです。
+        Swiftで作ったコリドールのゲームエンジンをブラウザ上で動かすデモアプリです。
+        WebAssemblyによって実現されています。
       </p>
       <p>
-        UIはJSです。Swiftではゲームエンジン部分とAIが動いてます。
-      </p>
-      <hr style={{ marginTop: "3rem" }} />
-      <div style={{ textAlign: "end" }}>
-        Twitter:
-        <a
-          className="TwitterLink"
-          href="https://twitter.com/iceman5499"
+        UI部分はReact、AIを含むゲームエンジン部分がSwiftで実装されています。
+        SwiftとTypeScript間を型安全にブリッジするために
+        <a 
+          className="Link"
+          href="https://github.com/sidepelican/WasmCallableKit"
           target="_blank"
           rel="noopener noreferrer"
         >
-          @iceman5499
+          WasmCallableKit
+        </a>
+        を使用しています。
+        <pre style={{ margin: "6px" }}>
+          <code>
+{`// Swiftクラスを生成
+const game = new Game(); 
+// 型安全なメソッド呼び出し
+game.putFence({ x, y, orientation: "horizontal"});
+// 盤面情報の取得
+const board = game.currentBoard();
+const playerPos = board.humanPawn.point;`}
+          </code>
+        </pre>
+      </p>
+      <hr style={{ marginTop: "3rem" }} />
+      <div style={{ textAlign: "end" }}>
+        GitHub:
+        <a
+          className="Link"
+          href="https://github.com/sidepelican/SwiftWasmQuoridor"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SwiftWasmQuoridor
         </a>
       </div>
     </div>
