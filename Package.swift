@@ -9,7 +9,7 @@ let package = Package(
         .executable(name: "WasmLib", targets: ["WasmLib"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/sidepelican/QuoridorEngine.git", from: "1.0.0"),
+        .package(url: "https://github.com/sidepelican/QuoridorEngine.git", from: "1.0.1"),
         .package(url: "https://github.com/sidepelican/WasmCallableKit.git", from: "0.3.0"),
     ],
     targets: [

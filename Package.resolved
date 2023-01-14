@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sidepelican/QuoridorEngine.git",
       "state" : {
-        "revision" : "fcbb57af26c15d0a3b9422523f33282e8c317a51",
-        "version" : "1.0.0"
+        "revision" : "48aea5d5d7c75cce857164743ba2d485b95159ee",
+        "version" : "1.0.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
       "state" : {
-        "revision" : "fddd1c00396eed152c45a46bea9f47b98e59301d",
-        "version" : "1.2.0"
+        "revision" : "4ad606ba5d7673ea60679a61ff867cc1ff8c8e86",
+        "version" : "1.2.1"
       }
     },
     {

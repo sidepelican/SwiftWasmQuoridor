@@ -26,7 +26,7 @@
     "prebuild": "npm run swiftbuild && npm run wasm-opt && npm run wasm-strip",
     "swiftbuild": "swift build --product WasmLib -c release --triple wasm32-unknown-wasi",
     "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm",
-    "wasm-strip": "wasm-strip pubic/WasmLib.wasm"
+    "wasm-strip": "wasm-strip public/WasmLib.wasm"
   },
   "browserslist": {
     "production": [
