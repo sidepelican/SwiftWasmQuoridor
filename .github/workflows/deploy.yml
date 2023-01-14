@@ -1,4 +1,4 @@
-name: deoloy
+name: deploy
 
 on:
   push:
