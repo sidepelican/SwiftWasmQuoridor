@@ -15,6 +15,7 @@
     "react-dom": "^18.2.0",
     "typescript": "^4.9.4",
     "vite": "^4.0.4",
+    "wabt": "^1.0.32",
     "wasm-opt": "^1.3.0"
   },
   "scripts": {
@@ -22,9 +23,10 @@
     "build": "tsc --noEmit && vite build",
     "tsc": "tsc --noEmit",
     "codegen": "swift package --allow-writing-to-package-directory codegen",
-    "prebuild": "npm run swiftbuild && npm run wasm-opt",
+    "prebuild": "npm run swiftbuild && npm run wasm-opt && npm run wasm-strip",
     "swiftbuild": "swift build --product WasmLib -c release --triple wasm32-unknown-wasi",
-    "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm"
+    "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm",
+    "wasm-strip": "wasm-strip pubic/WasmLib.wasm"
   },
   "browserslist": {
     "production": [
