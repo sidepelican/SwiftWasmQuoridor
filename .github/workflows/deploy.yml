@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: sidepelican/setup-swiftwasm@db3967c9779ff9ec24ebe26a90ed2886240338ea
+      - uses: swiftwasm/setup-swiftwasm@v1
       - run: npm ci
       - run: npm run build
       - uses: peaceiris/actions-gh-pages@v3
