@@ -35,8 +35,9 @@ export const App: React.FC<{}> = () => {
           WasmCallableKit
         </a>
         を使用しています。
-        <pre style={{ margin: "6px" }}>
-          <code>
+      </p>
+      <pre style={{ margin: "6px" }}>
+        <code>
 {`// Swiftクラスを生成
 const game = new Game(); 
 // 型安全なメソッド呼び出し
@@ -44,9 +45,8 @@ game.putFence({ x, y, orientation: "horizontal"});
 // 盤面情報の取得
 const board = game.currentBoard();
 const playerPos = board.humanPawn.point;`}
-          </code>
-        </pre>
-      </p>
+        </code>
+      </pre>
       <hr style={{ marginTop: "3rem" }} />
       <div style={{ textAlign: "end" }}>
         GitHub:

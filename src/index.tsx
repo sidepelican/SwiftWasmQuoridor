@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import { App } from './App';
 import { WasmProvider } from './WasmContext';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <React.StrictMode>
     <WasmProvider>
       <App />
     </WasmProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
