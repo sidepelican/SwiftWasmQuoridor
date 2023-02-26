@@ -1,15 +1,21 @@
-import { ReactNode, useCallback, useEffect, useState } from "react";
+import { ChangeEventHandler, ReactNode, useCallback, useEffect, useState } from "react";
 import { Board } from "./Board";
+import { LegacyBoard } from "./LegacyBoard";
 import { Game } from "./Gen/Game.gen";
 import { useWasmExports } from "./WasmContext";
 
 export const GameArea: React.FC<{}> = () => {
   const wasmReady = useWasmExports() != null;
 
+  const [useLegacy, setUseLegacy] = useState(false);
+  const onChangeUseLegacy: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setUseLegacy(e.currentTarget.checked);
+  };
+
   const [game, setGame] = useState<Game | null>(null);
-  const onReset = useCallback(() => {
+  const onReset = () => {
     setGame(null);
-  }, [game, wasmReady]);
+  };
 
   useEffect(() => {
     if (game == null && wasmReady) {
@@ -28,13 +34,24 @@ export const GameArea: React.FC<{}> = () => {
       <p>Starting game ...</p>
     </div>
   } else {
-    content = <Board game={game} />
+    if (useLegacy) {
+      content = <LegacyBoard game={game}/>
+    } else {
+      content = <Board game={game} />
+    }
   }
 
   return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
     {content}
-    <button style={{ width: "fit-content" }} onClick={onReset}>
-      Reset
-    </button>
+    <div style={{ display: "flex", flexDirection: "row", gap: "1rem", alignItems: "flex-end" }}>
+      <div>
+        <input type="checkbox" id="use_legacy" onChange={onChangeUseLegacy}/>
+        <label htmlFor="use_legacy">Use Legacy</label>
+      </div>
+      <button style={{ width: "fit-content" }} onClick={onReset}>
+        Reset
+      </button>
+
+    </div>
   </div>
 }

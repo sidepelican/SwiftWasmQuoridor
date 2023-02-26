@@ -7,6 +7,10 @@ public final class Game {
     private let wasmPlayer = WasmController()
     private let aiPlayer: MonteCarloPlayerWrapper
 
+    private var gameState: GameState {
+        agent.currentState
+    }
+
     public init() {
         let agent = GameAgent()
         self.agent = agent
@@ -36,8 +40,6 @@ public final class Game {
     }
 
     public func currentBoard() throws -> Board {
-        let gameState = agent.currentState
-
         let humanPawn = gameState.board.pawn(ofID: wasmPlayer.playerID)
         let aiPawn = gameState.board.pawn(ofID: aiPlayer.playerID)
 
@@ -77,6 +79,59 @@ public final class Game {
                 )
             }
         )
+    }
+
+    // MARK :- legacy functions get states in small pieces
+
+    public func canPutFence(position: FencePoint) -> Bool {
+        gameState.board.canAddFence(at: position.asEngine, orientation: position.orientation.asEngine)
+    }
+
+    public func canMove(position: PawnPoint) -> Bool {
+        gameState.board.canMovePawn(
+            ofID: wasmPlayer.playerID,
+            to: position.asEngine
+        )
+    }
+
+    public func existsFence(position: FencePoint) -> Bool {
+        gameState.board.fenceMap[numericCast(position.x), numericCast(position.y)]?.orientation == position.orientation.asEngine
+    }
+
+    public func pawnPosition(side: PlayerSide) -> PawnPoint {
+        let pawn: QuoridorEngine.Pawn
+        switch side {
+        case .human:
+            pawn = gameState.board.pawn(ofID: wasmPlayer.playerID)
+        case .ai:
+            pawn = gameState.board.pawn(ofID: aiPlayer.playerID)
+        }
+        return .init(x: numericCast(pawn.point.x), y: numericCast(pawn.point.y))
+    }
+
+    public func winPlayer() -> PlayerSide? {
+        if gameState.isWin(for: wasmPlayer.playerID) {
+            return .human
+        } else if gameState.isWin(for: aiPlayer.playerID) {
+            return .ai
+        } else {
+            return nil
+        }
+    }
+
+    public func currentTurn() -> PlayerSide {
+        gameState.currentPlayer == wasmPlayer.playerID ? .human : .ai
+    }
+
+    public func remainingFences(side: PlayerSide) -> Int {
+        let pawn: QuoridorEngine.Pawn
+        switch side {
+        case .human:
+            pawn = gameState.board.pawn(ofID: wasmPlayer.playerID)
+        case .ai:
+            pawn = gameState.board.pawn(ofID: aiPlayer.playerID)
+        }
+        return pawn.fencesLeft
     }
 }
 
