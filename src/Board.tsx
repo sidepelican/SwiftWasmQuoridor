@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './Board.css';
 import { Game } from './Gen/Game.gen';
 import { FenceOrientation } from './Gen/Types.gen';
+import { useGameBoard } from './useGameBoard';
 
 const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
   [...Array(8)].flatMap((_, i) => {
@@ -18,22 +19,16 @@ const possibleFences: { x: number, y: number, o: FenceOrientation }[] =
 export const Board: React.FC<{
   game: Game,
 }> = ({ game }) => {
-  const [, setCount] = useState(0);
-  const step = useCallback(() => {
-    setCount(v => v + 1);
-  }, []);
-
-  const board = game.currentBoard();
+  const board = useGameBoard(game);
 
   const aiTurn = board.currentTurn === "ai";
   useEffect(() => {
     if (aiTurn) {
       setTimeout(() => {
         game.aiNext();
-        step();
       }, 50);
     }
-  }, [aiTurn, game, step]);
+  }, [aiTurn, game]);
 
   const cpuPos = board.aiPawn.point;
   const playerPos = board.humanPawn.point;
@@ -53,7 +48,7 @@ export const Board: React.FC<{
             const canMove = board.canMoves[x * 9 + y];
             let onClick = undefined;
             if (canMove) {
-              onClick = () => { game.movePawn({ x, y }); step(); };
+              onClick = () => game.movePawn({ x, y });
             }
             return <Tile key={x} canMove={canMove} onClick={onClick} />;
           })}
@@ -86,7 +81,7 @@ export const Board: React.FC<{
         top += 60; left += 20;
         let onClick = undefined;
         if (canPlace) {
-          onClick = () => { game.putFence({ x, y, orientation: o}); step(); };
+          onClick = () => game.putFence({ x, y, orientation: o });
         }
         return <Fence key={`${x}_${y}_${o}`} orientation={o} canPlace={canPlace} placed={placed} top={top} left={left} onClick={onClick} />;
       })}
