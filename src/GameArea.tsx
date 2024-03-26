@@ -43,15 +43,18 @@ export const GameArea: React.FC<{}> = () => {
 
   return <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
     {content}
-    <div style={{ display: "flex", flexDirection: "row", gap: "1rem", alignItems: "flex-end" }}>
-      <div>
-        <input type="checkbox" id="use_legacy" onChange={onChangeUseLegacy}/>
-        <label htmlFor="use_legacy">Use Legacy</label>
-      </div>
-      <button style={{ width: "fit-content" }} onClick={onReset}>
+    <div style={{ display: "flex", flexDirection: "row", alignItems: "flex-end" }}>
+      <input type="checkbox" id="use_legacy" onChange={onChangeUseLegacy}/>
+      <label htmlFor="use_legacy" style={{ whiteSpace: "nowrap" }}>Use Legacy</label>
+      <button style={{ 
+          width: "fit-content",
+          marginLeft: "1rem",
+          marginRight: "6rem",
+        }}
+        onClick={onReset}
+      >
         Reset
       </button>
-
     </div>
   </div>
 }

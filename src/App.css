@@ -14,8 +14,8 @@ body {
 
 .Description {
   text-align: start;
-  max-width: 540px;
-  margin: 0 1.5rem 1rem;
+  max-width: 34rem;
+  margin: 1rem 0.5rem;
 }
 
 .Description h2 {

@@ -36,7 +36,7 @@ export const App: React.FC<{}> = () => {
         </a>
         を使用しています。
       </p>
-      <pre style={{ margin: "6px" }}>
+      <pre style={{ margin: "6px", whiteSpace: "pre-wrap" }}>
         <code>
 {`// Swiftクラスを生成
 const game = new Game(); 
