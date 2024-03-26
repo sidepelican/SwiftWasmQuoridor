@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/omochi/CodableToTypeScript",
       "state" : {
-        "revision" : "643a22c9d836e8c33accc13fedea39f7337a72a6",
-        "version" : "2.6.9"
+        "revision" : "8654d6ff35c9823cff38a6f9dd2aa0e6aed2769b",
+        "version" : "2.11.0"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sidepelican/QuoridorEngine.git",
       "state" : {
-        "revision" : "48aea5d5d7c75cce857164743ba2d485b95159ee",
-        "version" : "1.0.1"
+        "revision" : "0e513b92711d11b807dd4339f5482637362d9d9c",
+        "version" : "1.0.2"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser",
       "state" : {
-        "revision" : "4ad606ba5d7673ea60679a61ff867cc1ff8c8e86",
-        "version" : "1.2.1"
+        "revision" : "46989693916f56d1186bd59ac15124caef896560",
+        "version" : "1.3.1"
       }
     },
     {
@@ -43,6 +43,15 @@
       "state" : {
         "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
         "version" : "1.0.4"
+      }
+    },
+    {
+      "identity" : "swift-extras-json",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swift-extras/swift-extras-json.git",
+      "state" : {
+        "revision" : "122b9454ef01bf89a4c190b8fd3717ddd0a2fbd0",
+        "version" : "0.6.0"
       }
     },
     {
@@ -59,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax",
       "state" : {
-        "revision" : "72d3da66b085c2299dd287c2be3b92b5ebd226de",
-        "version" : "0.50700.1"
+        "revision" : "74203046135342e4a4a627476dd6caf8b28fe11b",
+        "version" : "509.0.0"
       }
     },
     {
@@ -68,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/omochi/SwiftTypeReader",
       "state" : {
-        "revision" : "4474b5eede5ddc5d322b51acf74db39c95116e09",
-        "version" : "2.4.5"
+        "revision" : "d21bbe0e0598d1a9a80718f19ea7081053986e1c",
+        "version" : "2.7.0"
       }
     },
     {
@@ -77,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/omochi/TypeScriptAST",
       "state" : {
-        "revision" : "fd7961c8cb06954f1934852756f59541742672e9",
-        "version" : "1.8.5"
+        "revision" : "c64e4a060a3daa9f8c964699ca4d8210235df20b",
+        "version" : "1.8.7"
       }
     },
     {
@@ -86,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sidepelican/WasmCallableKit.git",
       "state" : {
-        "revision" : "8d0ccfb35e62875fb0578df7ba68828a68e37d77",
-        "version" : "0.3.0"
+        "revision" : "3dc37fa7a81834db31da78472c11eeda78274c3c",
+        "version" : "0.4.0"
       }
     }
   ],

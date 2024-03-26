@@ -1,5 +1,4 @@
 import Algorithms
-import Foundation
 import QuoridorEngine
 
 public final class Game {
