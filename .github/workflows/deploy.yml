@@ -9,7 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: vapor/swiftly-action@v0.1.1
+        with:
+          toolchain: '5.9'
+      - uses: actions/checkout@v4
       - run: swift experimental-sdk install https://github.com/swiftwasm/swift/releases/download/swift-wasm-5.9.2-RELEASE/swift-wasm-5.9.2-RELEASE-ubuntu22.04_x86_64.artifactbundle.zip
       - run: npm ci
       - run: npm run build
