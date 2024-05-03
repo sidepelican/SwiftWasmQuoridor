@@ -24,10 +24,10 @@
     "preview": "vite preview",
     "tsc": "tsc",
     "codegen": "swift package --allow-writing-to-package-directory codegen",
-    "prebuild": "npm run swiftbuild && npm run wasm-opt && npm run wasm-strip",
-    "swiftbuild": "swift build --product WasmLib -c release --experimental-swift-sdk 5.9.2-RELEASE-wasm",
-    "wasm-opt": "wasm-opt -Os .build/release/WasmLib.wasm -o public/WasmLib.wasm",
-    "wasm-strip": "wasm-strip public/WasmLib.wasm"
+    "prebuild": "npm run swiftbuild && npm run wasm-strip && npm run wasm-opt",
+    "swiftbuild": "swift build --product WasmLib -c release -Xswiftc -Osize --experimental-swift-sdk 5.9.2-RELEASE-wasm",
+    "wasm-opt": "wasm-opt -Oz .build/release/WasmLib.wasm -o public/WasmLib.wasm",
+    "wasm-strip": "wasm-strip .build/release/WasmLib.wasm"
   },
   "browserslist": {
     "production": [
